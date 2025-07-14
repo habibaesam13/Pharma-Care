@@ -29,7 +29,7 @@ class CategoryPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAdmin===1 ;
+        return $user->isAdmin;
     }
 
     /**
@@ -37,15 +37,17 @@ class CategoryPolicy
      */
     public function update(User $user, Category $category): bool
     {
-        return $user->isAdmin===1;
+        return $user->isAdmin;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Category $category): bool
+    public function delete(User $user, Category $category): Response
     {
-        return $user->isAdmin===1;
+    return $user->isAdmin
+        ? Response::allow()
+        : Response::deny('Only admins can delete categories.');
     }
 
     /**

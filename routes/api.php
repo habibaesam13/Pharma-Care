@@ -11,7 +11,15 @@ Route::post('/forgot-password',[AuthController::class,'sendOtp']);
 Route::post('/reset-password',[AuthController::class,'resetPassword']);
 //Authenticated Routes
 Route::middleware('auth:sanctum')->group(function(){
-Route::post('/logout',[AuthController::class,'logout']);
+    Route::post('/logout',[AuthController::class,'logout']);
+});
+//Admin Routes
+Route::middleware(['auth:sanctum','role=admin'])->group(function(){
+    
 });
 
 
+//user routes
+Route::middleware(['auth:sanctum','role=user'])->group(function(){
+
+});
