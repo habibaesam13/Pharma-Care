@@ -22,6 +22,7 @@ class User extends Authenticatable
         'lastname',
         'email',
         'password',
+        'isAdmin',
     ];
 
     /**
@@ -34,6 +35,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $casts = [
+    'isAdmin' => 'boolean',
+];
     /**
      * Get the attributes that should be cast.
      *
