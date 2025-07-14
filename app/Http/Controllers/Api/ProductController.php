@@ -1,65 +1,86 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Traits\ApiResponse;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 
 class ProductController extends Controller
 {
+    use ApiResponse;
+
     /**
-     * Display a listing of the resource.
+     * Display a paginated listing of products.
      */
     public function index()
     {
-        //
+        $products = Product::paginate(10);
+        return self::success(['products' => $products]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created product.
      */
-    public function create()
+    public function store(StoreProductRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+            $validated['image'] = $imagePath;
+        }
+
+        $product = Product::create($validated);
+
+        return self::created($product, 'Product created successfully.');
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * Display a specific product.
      */
     public function show(Product $product)
     {
-        //
+        return self::success(['product' => $product]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update a specific product.
      */
-    public function edit(Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($product->image && Storage::disk('public')->exists($product->image)) {
+                Storage::disk('public')->delete($product->image);
+            }
+
+            $imagePath = $request->file('image')->store('products', 'public');
+            $data['image'] = $imagePath;
+        }
+
+        $product->update($data);
+
+        return self::success($product, 'Product updated successfully.');
     }
 
     /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Product $product)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * Delete a specific product.
      */
     public function destroy(Product $product)
     {
-        //
+        // Delete image from storage
+        if ($product->image && Storage::disk('public')->exists($product->image)) {
+            Storage::disk('public')->delete($product->image);
+        }
+
+        $product->delete();
+
+        return self::deleted('Product deleted successfully.');
     }
 }
