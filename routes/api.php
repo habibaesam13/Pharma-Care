@@ -25,6 +25,7 @@ Route::middleware(['auth:sanctum','role:admin'])->prefix('admin')->group(functio
 
 //user routes
 Route::middleware(['auth:sanctum','role:user'])->group(function(){
-    Route::apiResource('products', ProductController::class)->only(['index','show']);
-    Route::apiResource('categories', CategoryController::class)->only(['index','show']);
+    Route::apiResource('products', ProductController::class);
+    Route::apiResource('categories', CategoryController::class);
+
 });

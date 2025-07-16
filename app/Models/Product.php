@@ -17,8 +17,19 @@ class Product extends Model
         'stock',
         'description',
     ];
+protected $appends = ['price_after_discount'];
 
     public function category(){
         return $this->belongsTo(Category::class);
     }
+
+    public function getPriceAfterDiscountAttribute()
+{
+    if ($this->discount_amount) {
+        return round($this->price - ($this->price * $this->discount_amount / 100), 2);
+    }
+
+    return $this->price;
+}
+
 }
