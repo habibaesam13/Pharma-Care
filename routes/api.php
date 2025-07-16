@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
-
+use App\Http\Controllers\Api\FavouriteController;
 //public Routes
 
 Route::post('/login',[AuthController::class,'login']);
@@ -20,6 +20,8 @@ Route::middleware('auth:sanctum')->group(function(){
 Route::middleware(['auth:sanctum','role:admin'])->prefix('admin')->group(function(){
     Route::apiResource('products', ProductController::class);
     Route::apiResource('categories', CategoryController::class);
+    //Favourites Routes
+    Route::apiResource('favourites', FavouriteController::class);
 });
 
 
@@ -27,5 +29,9 @@ Route::middleware(['auth:sanctum','role:admin'])->prefix('admin')->group(functio
 Route::middleware(['auth:sanctum','role:user'])->group(function(){
     Route::apiResource('products', ProductController::class);
     Route::apiResource('categories', CategoryController::class);
+    //Favourites Routes
+    Route::get('favourites', [FavouriteController::class, 'index']);
+    Route::post('favourites', [FavouriteController::class, 'store']);
+    Route::delete('favourites', [FavouriteController::class, 'destroy']);
 
 });
