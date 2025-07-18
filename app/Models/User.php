@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Cart;
 use App\Models\Product;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -57,5 +58,10 @@ class User extends Authenticatable
     public function favouriteProducts()
 {
     return $this->belongsToMany(Product::class, 'favourites')->withTimestamps();
+}
+
+public function cart()
+{
+    return $this->hasOne(Cart::class);
 }
 }
