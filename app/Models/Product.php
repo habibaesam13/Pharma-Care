@@ -36,5 +36,9 @@ protected $appends = ['price_after_discount'];
 
     return $this->price;
 }
+public function cartItems()
+{
+    return $this->hasMany(CartItem::class);
+}
 
 }
