@@ -74,10 +74,6 @@ public function index(Request $request)
     ]);
 }
 
-
-    /**
-     * Display a paginated listing of products.
-     */
     /**
      * Display a specific product.
      */

@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CartItemController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CartItemsController;
 use App\Http\Controllers\Api\FavouriteController;
+use App\Http\Controllers\Api\PrescriptionController;
 //public Routes
 
 Route::post('/login',[AuthController::class,'login']);
@@ -28,6 +29,9 @@ Route::middleware(['auth:sanctum','role:admin'])->prefix('admin')->group(functio
     //Cart
     Route::get('carts', [CartController::class, 'index']);
     Route::get('carts/{user}', [CartController::class, 'show']); // Cart for specific user
+
+    //prescriptions
+    Route::apiResource('prescriptions', PrescriptionController::class)->except('create');
 });
 
 
@@ -50,5 +54,9 @@ Route::middleware(['auth:sanctum','role:user'])->group(function(){
 
     Route::delete('cart/items/{cartItem}', [CartItemController::class, 'destroy']); // Remove item
     Route::delete('cart/items/by-product/{product_id}', [CartItemController::class, 'destroyByProduct']);// Remove item by ptoduct
+
+
+    //prescriptions
+    Route::apiResource('prescriptions', PrescriptionController::class);
 
 });
