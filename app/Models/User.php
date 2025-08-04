@@ -64,4 +64,9 @@ public function cart()
 {
     return $this->hasOne(Cart::class);
 }
+
+public function prescriptions()
+{
+    return $this->hasMany(Prescription::class, 'patient_id');
+}
 }
