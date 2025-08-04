@@ -69,4 +69,16 @@ public function prescriptions()
 {
     return $this->hasMany(Prescription::class, 'patient_id');
 }
+
+
+public function serviceRequests()
+{
+    return $this->hasMany(RequestService::class);
+}
+
+public function nurseServiceRequests()
+{
+    return $this->hasMany(RequestService::class);
+}
+
 }
