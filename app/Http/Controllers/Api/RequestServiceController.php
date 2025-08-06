@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\RequestService;
 use Illuminate\Http\Request;
+use App\Models\RequestService;
+use App\Http\Controllers\Controller;
 
 class RequestServiceController extends Controller
 {
@@ -11,14 +12,6 @@ class RequestServiceController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
     {
         //
     }
@@ -35,14 +28,6 @@ class RequestServiceController extends Controller
      * Display the specified resource.
      */
     public function show(RequestService $requestService)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(RequestService $requestService)
     {
         //
     }
