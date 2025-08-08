@@ -2,49 +2,57 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Models\RequestService;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-
+use App\Traits\ApiResponse;
+use App\Http\Requests\StoreRequestServiceRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class RequestServiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use ApiResponse, AuthorizesRequests;
+
     public function index()
     {
-        //
+        $this->authorize('viewAny', RequestService::class);
+        $requests = RequestService::with(['user', 'nurse', 'service'])->get();
+        return self::success($requests, 'All request services retrieved');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreRequestServiceRequest $request)
     {
-        //
+        $this->authorize('create', RequestService::class);
+
+        $data = $request->validated();
+        $data['user_id'] = Auth::id();
+
+        $requestService = RequestService::create($data);
+
+        return self::created($requestService, 'Request service created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(RequestService $requestService)
     {
-        //
+        $this->authorize('view', $requestService);
+
+        return self::success($requestService, 'Request service details');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, RequestService $requestService)
+    public function update(StoreRequestServiceRequest $request, RequestService $requestService)
     {
-        //
+        $this->authorize('update', $requestService);
+
+        $requestService->update($request->validated());
+
+        return self::success($requestService, 'Request service updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(RequestService $requestService)
     {
-        //
+        $this->authorize('delete', $requestService);
+
+        $requestService->delete();
+
+        return self::deleted('Request service deleted successfully');
     }
 }
