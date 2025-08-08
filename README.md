@@ -37,7 +37,7 @@ The API supports **user authentication**, **role-based access control (Admin/Use
 
 * **Backend**: Laravel (Latest Version)
 * **Authentication**: Laravel Sanctum
-* **Database**: MySQL / MariaDB
+* **Database**: MySQL
 * **Authorization**: Role-based middleware
 * **API Format**: JSON
 
