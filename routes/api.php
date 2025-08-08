@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CartItemsController;
 use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\PrescriptionController;
+use App\Http\Controllers\Api\RequestServiceController;
 //public Routes
 
 Route::post('/login',[AuthController::class,'login']);
@@ -32,6 +33,9 @@ Route::middleware(['auth:sanctum','role:admin'])->prefix('admin')->group(functio
 
     //prescriptions
     Route::apiResource('prescriptions', PrescriptionController::class)->except('create');
+
+    //request services
+    Route::apiResource('request-services', RequestServiceController::class);
 });
 
 
@@ -58,5 +62,8 @@ Route::middleware(['auth:sanctum','role:user'])->group(function(){
 
     //prescriptions
     Route::apiResource('prescriptions', PrescriptionController::class);
+
+    //request services
+    Route::apiResource('request-services', RequestServiceController::class);
 
 });
