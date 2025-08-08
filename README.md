@@ -179,6 +179,3 @@ Content-Type: application/json
   "token": "1|XdfgHjklQwerty..."
 }
 
-
-I can also make you a **diagram showing the relationships between routes, controllers, and features** so your README looks even more professional.
-Do you want me to include that?
