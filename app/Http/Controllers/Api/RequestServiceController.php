@@ -13,11 +13,16 @@ class RequestServiceController extends Controller
     use ApiResponse, AuthorizesRequests;
 
     public function index()
-    {
-        $this->authorize('viewAny', RequestService::class);
-        $requests = RequestService::with(['user', 'nurse', 'service'])->get();
-        return self::success($requests, 'All request services retrieved');
-    }
+{
+    $this->authorize('viewAny', RequestService::class);
+
+    $requests = RequestService::with(['user', 'nurse', 'service'])
+        ->orderBy('id', 'desc')
+        ->cursorPaginate(10); 
+
+    return self::success($requests, 'All request services retrieved');
+}
+
 
     public function store(StoreRequestServiceRequest $request)
     {
