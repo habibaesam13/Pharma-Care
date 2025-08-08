@@ -1,61 +1,184 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Ecommerce & Service Request API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based RESTful API for an **e-commerce** and **service request** platform.
+The API supports **user authentication**, **role-based access control (Admin/User)**, **product & category management**, **favorites**, **shopping cart**, **prescriptions**, and **service requests**.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📌 Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### **Authentication**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* User registration, login, logout
+* Password reset with OTP verification
+* Role-based access: `admin` and `user`
+* Sanctum authentication for secure API access
 
-## Learning Laravel
+### **Admin Capabilities**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* Manage **products** (CRUD)
+* Manage **categories** (CRUD)
+* View & manage **favorites**
+* View & manage **shopping carts**
+* Manage **prescriptions**
+* Manage **service requests**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### **User Capabilities**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* Browse products & categories
+* Add/remove favorites
+* Manage personal shopping cart (add, update, delete items)
+* Submit and manage prescriptions
+* Submit and manage service requests
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Tech Stack
 
-### Premium Partners
+* **Backend**: Laravel (Latest Version)
+* **Authentication**: Laravel Sanctum
+* **Database**: MySQL / MariaDB
+* **Authorization**: Role-based middleware
+* **API Format**: JSON
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 📂 API Endpoints
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### **Public Routes**
 
-## Code of Conduct
+| Method | Endpoint           | Description                 |
+| ------ | ------------------ | --------------------------- |
+| `POST` | `/login`           | User login                  |
+| `POST` | `/signup`          | User registration           |
+| `POST` | `/forgot-password` | Send OTP for password reset |
+| `POST` | `/reset-password`  | Reset password with OTP     |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+### **Authenticated Routes**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Method | Endpoint  | Description             |
+| ------ | --------- | ----------------------- |
+| `POST` | `/logout` | Logout the current user |
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### **Admin Routes** (`/admin`, requires `role:admin`)
+
+| Method                | Endpoint            | Description                   |
+| --------------------- | ------------------- | ----------------------------- |
+| `GET/POST/PUT/DELETE` | `/products`         | Manage products               |
+| `GET/POST/PUT/DELETE` | `/categories`       | Manage categories             |
+| `GET/POST/PUT/DELETE` | `/favourites`       | Manage favorites              |
+| `GET`                 | `/carts`            | View all carts                |
+| `GET`                 | `/carts/{user}`     | View cart for a specific user |
+| `GET/POST/PUT/DELETE` | `/prescriptions`    | Manage prescriptions          |
+| `GET/POST/PUT/DELETE` | `/request-services` | Manage service requests       |
+
+---
+
+### **User Routes** (requires `role:user`)
+
+| Method                | Endpoint                              | Description                 |
+| --------------------- | ------------------------------------- | --------------------------- |
+| `GET`                 | `/products`                           | View products               |
+| `GET`                 | `/categories`                         | View categories             |
+| `GET`                 | `/favourites`                         | View user favorites         |
+| `POST`                | `/favourites`                         | Add favorite                |
+| `DELETE`              | `/favourites`                         | Remove favorite             |
+| `GET`                 | `/cart`                               | View current user cart      |
+| `DELETE`              | `/cart/{cart}`                        | Delete user cart            |
+| `POST`                | `/cart/items`                         | Add item to cart            |
+| `PUT`                 | `/cart/items/{cartItem}`              | Update cart item            |
+| `PUT`                 | `/cart/items/by-product/{product_id}` | Update cart item by product |
+| `DELETE`              | `/cart/items/{cartItem}`              | Remove item from cart       |
+| `DELETE`              | `/cart/items/by-product/{product_id}` | Remove item by product      |
+| `GET/POST/PUT/DELETE` | `/prescriptions`                      | Manage prescriptions        |
+| `GET/POST/PUT/DELETE` | `/request-services`                   | Manage service requests     |
+
+---
+
+## 🔐 Authentication & Authorization
+
+* **Auth**: Laravel Sanctum is used for API token authentication.
+* **Roles**:
+
+  * **Admin**: Full control over all resources.
+  * **User**: Restricted to their own data and limited actions.
+
+Example of role-based route protection:
+
+```php
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function() {
+    // Admin routes here
+});
+```
+
+---
+
+## 🛠 Installation
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/habibaesam13/Pharma-Care.git
+```
+
+2. **Install dependencies**
+
+```bash
+composer install
+```
+
+3. **Copy `.env` file**
+
+```bash
+cp .env.example .env
+```
+
+4. **Configure environment variables** in `.env`
+
+* Database connection
+* Sanctum settings
+* Mail settings (for OTP)
+
+5. **Run migrations**
+
+```bash
+php artisan migrate
+```
+
+6. **Run server**
+
+```bash
+php artisan serve
+```
+
+---
+
+## 📌 Example Requests
+
+**Login Request**
+
+```http
+POST /api/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+**Login Response**
+
+```json
+{
+  "status": "success",
+  "token": "1|XdfgHjklQwerty..."
+}
+
+
+I can also make you a **diagram showing the relationships between routes, controllers, and features** so your README looks even more professional.
+Do you want me to include that?
